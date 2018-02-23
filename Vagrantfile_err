@@ -11,6 +11,8 @@ Vagrant.configure("2") do |config|
 
 #Run backup on both virtual machines: box1 and box2
   config.vm.provision "shell", path: "backup_script.sh"
+# This will generate an error message, unless the person using your vagrantfile
+# has that .sh file in the same folder as the vagrantfile ---RK
 
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
@@ -29,7 +31,7 @@ Vagrant.configure("2") do |config|
 
 	box1.vm.network:forwarded_port,guest:80,host:10122,id:"ssh"
 	box1.vm.network:private_network,ip:"192.168.56.101"
-	  
+	## You have assigned the same host port (10122) to two boxes -- RK  
 	  ##########Dublicate IPs? .101?
 	
 	box1.vm.provider "virtualbox" do |v|
@@ -48,6 +50,7 @@ Vagrant.configure("2") do |config|
 
 	box2.vm.network:forwarded_port,guest:22,host:10122,id:"ssh"
         box2.vm.network:private_network,ip:"192.168.56.101"
+	# Duplicated IP address for box2 (same as box1) -- RK
     end
 
   config.vm.define "box3" do |box3|
@@ -121,5 +124,6 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
 end
+## The end above will generate an error, as the vagrantfile was ended previously on line 71 --RK
 
 ####Looks Good!
